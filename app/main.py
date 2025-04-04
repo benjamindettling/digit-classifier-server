@@ -9,7 +9,7 @@ app = FastAPI()
 # CORS settings (adjust if needed)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Or set your domain
+    allow_origins=["https://digit.benjamindettling.ch"]
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
