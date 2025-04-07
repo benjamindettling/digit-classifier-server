@@ -24,3 +24,8 @@ async def predict(file: UploadFile = File(...)):
     image = Image.open(io.BytesIO(image_bytes)).convert("L").resize((28, 28))
     predicted_digit = predict_digit(model, image)
     return {"prediction": predicted_digit}
+
+# Health check or warm-up endpoint
+@app.get("/ping")
+async def ping():
+    return {"status": "alive"}
