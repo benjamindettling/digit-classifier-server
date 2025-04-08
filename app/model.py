@@ -7,19 +7,29 @@ class SwissCNN(nn.Module):
     def __init__(self):
         super().__init__()
         self.net = nn.Sequential(
-            nn.Conv2d(1, 16, kernel_size=3, padding=1),
+            nn.Conv2d(1, 64, kernel_size=3, padding=1),
+            nn.BatchNorm2d(64),
             nn.ReLU(),
-            nn.MaxPool2d(2),
+            nn.Conv2d(64, 64, kernel_size=3, padding=1),
+            nn.BatchNorm2d(64),
+            nn.ReLU(),
+            nn.MaxPool2d(2, 2),
 
-            nn.Conv2d(16, 32, kernel_size=3, padding=1),
+            nn.Conv2d(64, 128, kernel_size=3, padding=1),
+            nn.BatchNorm2d(128),
             nn.ReLU(),
-            nn.MaxPool2d(2),
+            nn.Conv2d(128, 128, kernel_size=3, padding=1),
+            nn.BatchNorm2d(128),
+            nn.ReLU(),
+            nn.MaxPool2d(2, 2),
 
             nn.Flatten(),
-            nn.Linear(32 * 7 * 7, 64),
+            nn.Linear(128 * 7 * 7, 512),
             nn.ReLU(),
-            nn.Dropout(0.2),
-            nn.Linear(64, 10)
+            nn.Dropout(0.5),
+            nn.Linear(512, 128),
+            nn.ReLU(),
+            nn.Linear(128, 10)
         )
 
     def forward(self, x):
@@ -35,8 +45,8 @@ def load_model(path="mnist_model.pth"):
 
 def predict_digit(model, image):
     device = next(model.parameters()).device
-    tensor = ToTensor()(image).unsqueeze(0).to(device)  # shape: [1, 1, 28, 28]
-    tensor = Normalize((0.5,), (0.5,))(tensor)
+    tensor = ToTensor()(image).unsqueeze(0).to(device) 
+    tensor = Normalize((0.9492,), (0.1168,))(tensor)
 
     with torch.no_grad():
         output = model(tensor)
