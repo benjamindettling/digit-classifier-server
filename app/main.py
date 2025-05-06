@@ -36,6 +36,7 @@ async def predict(file: UploadFile = File(...)):
 async def ping():
     return {"status": "alive"}
 
-@app.get("/")
+@app.api_route("/", methods=["GET", "HEAD"])
 async def root():
     return {"message": "Digit Classifier API is alive."}
+
