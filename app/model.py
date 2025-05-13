@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 from torchvision.transforms import ToTensor, Normalize
 
-# Match the CNN structure used in your Colab training script
+# Model matching my PyTorch model
 class SwissCNN(nn.Module):
     def __init__(self):
         super().__init__()

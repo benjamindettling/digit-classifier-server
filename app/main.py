@@ -6,11 +6,11 @@ import io
 
 app = FastAPI()
 
-# CORS settings (adjust if needed)
+# CORS settings
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
+    allow_origins=["*"], # allows all origins. Fine for tech demo, otherwise unsave and needs adjustment
+    allow_credentials=True, 
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -31,11 +31,12 @@ async def predict(file: UploadFile = File(...)):
         return {"prediction": "Error"}
 
 
-# Health check or warm-up endpoint
+# check state or wake it up
 @app.get("/ping")
 async def ping():
     return {"status": "alive"}
 
+# ping for UpTimeRobot
 @app.api_route("/", methods=["GET", "HEAD"])
 async def root():
     return {"message": "Digit Classifier API is alive."}
